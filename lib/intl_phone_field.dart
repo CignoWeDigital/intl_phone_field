@@ -127,8 +127,13 @@ class IntlPhoneField extends StatefulWidget {
   /// 2 Letter ISO Code
   final String? initialCountryCode;
 
+/*
   /// List of 2 Letter ISO Codes of countries to show. Defaults to showing the inbuilt list of all countries.
   final List<String>? countries;
+*/
+
+  /// List of countries to show. Defaults to showing the inbuilt list of all countries.
+  final List<Country>? countries;
 
   /// The decoration to show around the text field.
   ///
@@ -293,11 +298,12 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
   @override
   void initState() {
     super.initState();
-    _countryList = widget.countries == null
+    /* _countryList = widget.countries == null
         ? countries
         : countries
             .where((country) => widget.countries!.contains(country.code))
-            .toList();
+            .toList();*/
+    _countryList = populateCountriesList();
     filteredCountries = _countryList;
     number = widget.initialValue ?? '';
     if (widget.initialCountryCode == null && number.startsWith('+')) {
@@ -329,6 +335,15 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
           validatorMessage = msg;
         });
       }
+    }
+  }
+
+  List<Country> populateCountriesList(){
+    var customCountries = widget.countries;
+    if(customCountries == null){
+      return countries;
+    }else{
+      return customCountries;
     }
   }
 
